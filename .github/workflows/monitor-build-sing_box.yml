@@ -11,29 +11,24 @@ jobs:
     strategy:
       matrix:
         include:
-          - name: linux-mipsel-softfloat
-            goos: linux
-            goarch: mipsle
-            gomips: softfloat
-          - name: linux-mipsel-hardfloat
-            goos: linux
-            goarch: mipsle
-            gomips: hardfloat
-          - name: linux-arm-v7
-            goos: linux
-            goarch: arm
-            goarm: 7
           - name: freebsd-amd64
             goos: freebsd
             goarch: amd64
+            goamd64: v1
+          - name: freebsd-amd64-v2
+            goos: freebsd
+            goarch: amd64
+            goamd64: v2
+          - name: freebsd-amd64-v3
+            goos: freebsd
+            goarch: amd64
+            goamd64: v3
       fail-fast: true
     runs-on: ubuntu-latest
     env:
       GOOS: ${{ matrix.goos }}
       GOARCH: ${{ matrix.goarch }}
       GOAMD64: ${{ matrix.goamd64 }}
-      GOARM: ${{ matrix.goarm }}
-      GOMIPS: ${{ matrix.gomips }}
       CGO_ENABLED: 0
       # TAGS: with_clash_api,with_quic
     outputs:
@@ -156,7 +151,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ env.LATEST_TAG }}
-          files: ${{ github.workspace }}/*
+          files: ${{ github.workspace }}/*.tar.gz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
